@@ -1,5 +1,5 @@
 # Binaries
-scorm-generator
+/scorm-generator
 *.exe
 *.exe~
 *.dll
