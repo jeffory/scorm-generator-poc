@@ -8,6 +8,7 @@ import (
 	"github.com/jeffory/scorm-generator-poc/internal/openrouter"
 	"github.com/jeffory/scorm-generator-poc/internal/quiz"
 	"github.com/jeffory/scorm-generator-poc/internal/scorm"
+	"github.com/jeffory/scorm-generator-poc/internal/tui"
 )
 
 func main() {
@@ -52,10 +53,25 @@ func main() {
 		os.Exit(1)
 	}
 
-	fmt.Printf("Successfully generated %d questions\n", len(quizData.Questions))
+	fmt.Printf("Successfully generated %d questions\n\n", len(quizData.Questions))
+
+	// Review questions in TUI
+	fmt.Println("Review the questions below. Use arrow keys or h/l to navigate.")
+	fmt.Println("Press Enter or 'y' to approve and create SCORM package, 'n' or 'q' to cancel.\n")
+
+	approved, err := tui.ReviewQuiz(quizData)
+	if err != nil {
+		fmt.Printf("Error during review: %v\n", err)
+		os.Exit(1)
+	}
+
+	if !approved {
+		fmt.Println("\n❌ Quiz generation cancelled. No SCORM package was created.")
+		os.Exit(0)
+	}
 
 	// Generate SCORM package
-	fmt.Println("Creating SCORM package...")
+	fmt.Println("\n✓ Questions approved! Creating SCORM package...")
 	scormGen := scorm.NewGenerator(*outputDir)
 	zipPath, err := scormGen.Generate(quizData)
 	if err != nil {

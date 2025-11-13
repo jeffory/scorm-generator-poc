@@ -5,6 +5,7 @@ A Go application that generates SCORM 1.2 compliant quiz packages using OpenRout
 ## Features
 
 - 🤖 **AI-Powered**: Uses OpenRouter to generate educational multiple-choice questions on any subject
+- 🎯 **Interactive TUI**: Review and approve questions before creating SCORM packages using a beautiful terminal interface
 - 📦 **SCORM 1.2 Compliant**: Creates standard SCORM packages compatible with most Learning Management Systems (LMS)
 - 🎨 **Modern UI**: Includes a responsive, attractive quiz interface
 - 📊 **Progress Tracking**: Tracks quiz completion and scores via SCORM API
@@ -36,6 +37,13 @@ go build -o scorm-generator ./cmd/scorm-generator
 export OPENROUTER_API_KEY="your-api-key-here"
 ./scorm-generator -subject "World History"
 ```
+
+The application will:
+1. Generate questions using the LLM
+2. Display an interactive TUI for you to review each question
+3. Show all options with the correct answer marked
+4. Allow you to navigate between questions (arrow keys or h/l)
+5. Prompt you to approve (Enter/y) or reject (n/q) before creating the SCORM package
 
 ### Advanced Options
 
@@ -79,7 +87,13 @@ The ZIP file can be directly uploaded to any SCORM 1.2 compatible LMS (Moodle, C
 Initializing OpenRouter client...
 Generating 5 questions about 'World History' using model anthropic/claude-3.5-sonnet...
 Successfully generated 5 questions
-Creating SCORM package...
+
+Review the questions below. Use arrow keys or h/l to navigate.
+Press Enter or 'y' to approve and create SCORM package, 'n' or 'q' to cancel.
+
+[Interactive TUI displays here - navigate through questions with arrow keys]
+
+✓ Questions approved! Creating SCORM package...
 
 ✓ SCORM package created successfully!
   Location: ./output/World_History.zip
@@ -129,12 +143,14 @@ See [OpenRouter's model list](https://openrouter.ai/models) for all available mo
 │   │   └── client.go
 │   ├── quiz/               # Quiz generation logic
 │   │   └── generator.go
-│   └── scorm/              # SCORM package generator
-│       ├── generator.go    # Main SCORM generator
-│       ├── manifest.go     # imsmanifest.xml generator
-│       ├── templates.go    # HTML template generator
-│       ├── scormapi.go     # SCORM API JavaScript
-│       └── styles.go       # CSS styles
+│   ├── scorm/              # SCORM package generator
+│   │   ├── generator.go    # Main SCORM generator
+│   │   ├── manifest.go     # imsmanifest.xml generator
+│   │   ├── templates.go    # HTML template generator
+│   │   ├── scormapi.go     # SCORM API JavaScript
+│   │   └── styles.go       # CSS styles
+│   └── tui/                # Terminal UI for question review
+│       └── review.go       # Interactive review interface
 └── pkg/
     └── models/             # Data models
         └── quiz.go         # Quiz and Question models
@@ -166,12 +182,16 @@ go mod tidy
 1. **User Input**: You provide a subject and number of questions
 2. **LLM Query**: The app sends a prompt to OpenRouter requesting quiz questions
 3. **JSON Parsing**: The LLM response is parsed into structured question data
-4. **SCORM Generation**:
+4. **Interactive Review**: Questions are displayed in a beautiful TUI where you can:
+   - Navigate between questions using arrow keys or h/l
+   - See all options with correct answers clearly marked
+   - Approve with Enter/y or reject with n/q
+5. **SCORM Generation** (if approved):
    - Creates `imsmanifest.xml` with SCORM metadata
    - Generates interactive HTML quiz interface
    - Includes SCORM API wrapper for LMS communication
    - Adds responsive CSS styling
-5. **Package Creation**: All files are zipped into a SCORM package
+6. **Package Creation**: All files are zipped into a SCORM package
 
 ## Troubleshooting
 
@@ -208,6 +228,8 @@ MIT License - feel free to use this project for any purpose.
 ## Acknowledgments
 
 - Built with [OpenRouter](https://openrouter.ai/) for LLM access
+- [Bubble Tea](https://github.com/charmbracelet/bubbletea) for the beautiful TUI
+- [Lip Gloss](https://github.com/charmbracelet/lipgloss) for TUI styling
 - SCORM 1.2 specification by ADL (Advanced Distributed Learning)
 - Go standard library for robust functionality
 
