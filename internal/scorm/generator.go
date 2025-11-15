@@ -12,13 +12,18 @@ import (
 
 // Generator generates SCORM packages
 type Generator struct {
-	outputDir string
+	outputDir    string
+	passingScore int
 }
 
 // NewGenerator creates a new SCORM generator
-func NewGenerator(outputDir string) *Generator {
+func NewGenerator(passingScore int) *Generator {
+	if passingScore <= 0 || passingScore > 100 {
+		passingScore = 70 // default
+	}
 	return &Generator{
-		outputDir: outputDir,
+		outputDir:    "./output",
+		passingScore: passingScore,
 	}
 }
 

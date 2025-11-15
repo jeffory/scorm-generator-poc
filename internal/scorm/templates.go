@@ -135,7 +135,7 @@ func (g *Generator) generateIndexHTML(dir string, quiz *models.Quiz) error {
             setSCORMValue('cmi.core.score.raw', score);
             setSCORMValue('cmi.core.score.min', 0);
             setSCORMValue('cmi.core.score.max', 100);
-            setSCORMValue('cmi.core.lesson_status', score >= 70 ? 'passed' : 'failed');
+            setSCORMValue('cmi.core.lesson_status', score >= {{.PassingScore}} ? 'passed' : 'failed');
 
             // Show results
             document.getElementById('quiz-container').style.display = 'none';
@@ -189,9 +189,11 @@ func (g *Generator) generateIndexHTML(dir string, quiz *models.Quiz) error {
 	data := struct {
 		Subject       string
 		QuestionsJSON template.JS
+		PassingScore  int
 	}{
 		Subject:       quiz.Subject,
 		QuestionsJSON: template.JS(questionsJSON),
+		PassingScore:  g.passingScore,
 	}
 
 	file, err := os.Create(filepath.Join(dir, "index.html"))

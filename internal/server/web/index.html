@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCORM Quiz Generator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app">
+        <header>
+            <h1>🎓 SCORM Quiz Generator</h1>
+            <p class="subtitle">Create interactive SCORM 1.2 compliant quizzes powered by AI</p>
+        </header>
+
+        <div class="container">
+            <!-- Tab Navigation -->
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="generate">Generate Quiz</button>
+                <button class="tab-btn" data-tab="library">Quiz Library</button>
+            </div>
+
+            <!-- Generate Tab -->
+            <div class="tab-content active" id="generate-tab">
+                <!-- Generation Form -->
+                <div id="generation-form" class="card">
+                    <h2>Generate New Quiz</h2>
+                    <form id="quiz-form">
+                        <div class="form-group">
+                            <label for="subject">Subject / Topic</label>
+                            <input type="text" id="subject" placeholder="e.g., World History, JavaScript Basics, Biology 101" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="question-count">Number of Questions</label>
+                                <input type="number" id="question-count" min="1" max="50" value="5" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="passing-score">Passing Score (%)</label>
+                                <input type="number" id="passing-score" min="1" max="100" value="70" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" id="generate-btn">
+                            <span class="btn-text">Generate Questions</span>
+                            <span class="loading-spinner" style="display:none;">⏳</span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Quiz Editor -->
+                <div id="quiz-editor" class="card" style="display:none;">
+                    <div class="editor-header">
+                        <h2>Review & Edit Questions</h2>
+                        <div class="editor-actions">
+                            <button class="btn btn-secondary" id="save-to-library-btn">💾 Save to Library</button>
+                            <button class="btn btn-secondary" id="export-json-btn">📥 Export JSON</button>
+                            <button class="btn btn-secondary" id="import-json-btn">📤 Import JSON</button>
+                            <button class="btn btn-primary" id="create-scorm-btn">📦 Create SCORM Package</button>
+                        </div>
+                    </div>
+                    <input type="file" id="import-file-input" accept=".json" style="display:none;">
+
+                    <div id="questions-list"></div>
+                </div>
+
+                <!-- Success Message -->
+                <div id="success-message" class="card success-card" style="display:none;">
+                    <h2>✅ SCORM Package Created!</h2>
+                    <p id="success-text"></p>
+                    <div class="success-actions">
+                        <button class="btn btn-primary" id="download-btn">⬇️ Download Package</button>
+                        <button class="btn btn-secondary" id="preview-btn">👁️ Preview SCORM Lesson</button>
+                        <button class="btn btn-secondary" id="new-quiz-btn">➕ Create New Quiz</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Library Tab -->
+            <div class="tab-content" id="library-tab">
+                <div class="card">
+                    <h2>Saved Quizzes</h2>
+                    <div id="library-list" class="library-list"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Preview Modal -->
+        <div id="preview-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>SCORM Lesson Preview</h2>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <iframe id="preview-iframe" src="" frameborder="0"></iframe>
+                </div>
+            </div>
+        </div>
+
+        <!-- Save to Library Modal -->
+        <div id="save-modal" class="modal">
+            <div class="modal-content modal-small">
+                <div class="modal-header">
+                    <h2>Save Quiz to Library</h2>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="quiz-name">Quiz Name</label>
+                        <input type="text" id="quiz-name" placeholder="e.g., World History Quiz v1">
+                    </div>
+                    <button class="btn btn-primary" id="confirm-save-btn">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

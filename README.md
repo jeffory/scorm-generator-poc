@@ -1,167 +1,247 @@
-# SCORM Generator POC
+# SCORM Generator - Web Application
 
-A Go application that generates SCORM 1.2 compliant quiz packages using OpenRouter's LLM API.
+A modern web application that generates SCORM 1.2 compliant quiz packages using AI. Features an intuitive web interface with quiz editing, preview, and library management.
 
-## Features
+## ✨ Features
 
-- 🤖 **AI-Powered**: Uses OpenRouter to generate educational multiple-choice questions on any subject
-- 🎯 **Interactive TUI**: Review and approve questions before creating SCORM packages using a beautiful terminal interface
-- 📦 **SCORM 1.2 Compliant**: Creates standard SCORM packages compatible with most Learning Management Systems (LMS)
-- 🎨 **Modern UI**: Includes a responsive, attractive quiz interface
-- 📊 **Progress Tracking**: Tracks quiz completion and scores via SCORM API
-- ✅ **Instant Feedback**: Shows correct/incorrect answers after submission
+### Core Functionality
+- 🌐 **Modern Web Interface**: Beautiful, responsive single-page application
+- 🤖 **AI-Powered Generation**: Uses OpenRouter to create educational multiple-choice questions on any subject
+- ✏️ **Inline Editing**: Edit questions and answers directly in the browser
+- 🔄 **Smart Regeneration**: Regenerate individual questions with one click
+- 📦 **SCORM 1.2 Compliant**: Creates standard packages compatible with most LMS platforms
+- 👁️ **SCORM Preview**: Preview your quiz before deployment
+- 🎯 **Customizable Settings**: Configure passing scores and quiz parameters
+
+### Library & Management
+- 📚 **Quiz Library**: Save and manage multiple quiz configurations
+- 💾 **Import/Export**: Import and export quizzes as JSON files
+- 📊 **Quiz History**: Track all your created quizzes with metadata
+- 🔍 **Quick Search**: Find and load saved quizzes instantly
+
+### User Experience
+- 🎨 **Beautiful UI**: Modern gradient design with smooth animations
+- 📱 **Fully Responsive**: Works perfectly on desktop, tablet, and mobile
+- ⚡ **Real-time Updates**: Instant feedback on all operations
+- 🎓 **Educational Focus**: Clean, distraction-free interface
 
 ## Prerequisites
 
 - Go 1.19 or later
 - OpenRouter API key ([Get one here](https://openrouter.ai/))
+- Modern web browser (Chrome, Firefox, Safari, Edge)
 
-## Installation
+## Quick Start
 
-1. Clone the repository:
+### 1. Clone and Build
+
 ```bash
 git clone https://github.com/jeffory/scorm-generator-poc.git
 cd scorm-generator-poc
+go build -o bin/web-server ./cmd/web-server
 ```
 
-2. Build the application:
-```bash
-go build -o scorm-generator ./cmd/scorm-generator
-```
-
-## Usage
-
-### Basic Usage
+### 2. Set Your API Key
 
 ```bash
 export OPENROUTER_API_KEY="your-api-key-here"
-./scorm-generator -subject "World History"
 ```
 
-The application will:
-1. Generate questions using the LLM
-2. Display an interactive TUI for you to review each question
-3. Show all options with the correct answer marked
-4. Allow you to navigate between questions (arrow keys or h/l)
-5. Prompt you to approve (Enter/y) or reject (n/q) before creating the SCORM package
-
-### Advanced Options
+### 3. Start the Server
 
 ```bash
-./scorm-generator \
-  -subject "Quantum Physics" \
-  -questions 10 \
-  -output ./my-courses \
-  -model "anthropic/claude-3.5-sonnet" \
-  -api-key "your-api-key"
+./bin/web-server
 ```
+
+The server will start on `http://localhost:8080` by default.
+
+### 4. Open Your Browser
+
+Navigate to `http://localhost:8080` and start creating SCORM quizzes!
+
+## Configuration Options
 
 ### Command-Line Flags
 
+```bash
+./bin/web-server \
+  -port 8080 \
+  -api-key "your-api-key" \
+  -model "anthropic/claude-3.5-sonnet"
+```
+
 | Flag | Description | Default | Required |
 |------|-------------|---------|----------|
-| `-subject` | Subject for the quiz | - | Yes |
-| `-questions` | Number of questions to generate | 5 | No |
-| `-output` | Output directory for SCORM package | `./output` | No |
-| `-model` | OpenRouter model to use | `anthropic/claude-3.5-sonnet` | No |
+| `-port` | Port to run the web server on | `8080` | No |
 | `-api-key` | OpenRouter API key | From env: `OPENROUTER_API_KEY` | Yes |
+| `-model` | OpenRouter model to use | `anthropic/claude-3.5-sonnet` | No |
 
 ### Environment Variables
 
-- `OPENROUTER_API_KEY`: Your OpenRouter API key (alternative to `-api-key` flag)
+- `OPENROUTER_API_KEY`: Your OpenRouter API key (recommended method)
 
-## Output
+## Using the Web Interface
 
-The application generates a SCORM 1.2 package as a ZIP file containing:
+### Generating a Quiz
 
-- `imsmanifest.xml` - SCORM manifest file
-- `index.html` - Interactive quiz interface
-- `scormapi.js` - SCORM API wrapper for LMS communication
-- `styles.css` - Modern, responsive styling
+1. **Enter Quiz Details**
+   - Subject/Topic (e.g., "World History", "Python Programming")
+   - Number of questions (1-50)
+   - Passing score percentage (1-100%)
 
-The ZIP file can be directly uploaded to any SCORM 1.2 compatible LMS (Moodle, Canvas, Blackboard, etc.)
+2. **Click "Generate Questions"**
+   - AI will create questions based on your subject
+   - Takes 10-30 seconds depending on question count
 
-## Example Output
+3. **Review & Edit**
+   - See all generated questions
+   - Click ✏️ to edit any question
+   - Click 🔄 to regenerate individual questions
+   - All edits are saved automatically
 
-```
-Initializing OpenRouter client...
-Generating 5 questions about 'World History' using model anthropic/claude-3.5-sonnet...
-Successfully generated 5 questions
+### Managing Questions
 
-Review the questions below. Use arrow keys or h/l to navigate.
-Press Enter or 'y' to approve and create SCORM package, 'n' or 'q' to cancel.
+#### Edit a Question
+- Click the ✏️ edit icon
+- Modify question text, options, or correct answer
+- Click "Save" to apply changes
 
-[Interactive TUI displays here - navigate through questions with arrow keys]
+#### Regenerate a Question
+- Click the 🔄 regenerate icon
+- AI will create a new question to replace it
+- Review and edit if needed
 
-✓ Questions approved! Creating SCORM package...
+### Creating SCORM Package
 
-✓ SCORM package created successfully!
-  Location: ./output/World_History.zip
-  Subject: World History
-  Questions: 5
+1. Review all questions
+2. Click "📦 Create SCORM Package"
+3. Package is generated in seconds
+4. Options:
+   - **⬇️ Download**: Download the ZIP file
+   - **👁️ Preview**: Preview the quiz (extract and open index.html)
+   - **➕ New Quiz**: Start a new quiz
 
-You can now upload this SCORM package to your LMS (Learning Management System)
-```
+### Quiz Library Features
 
-## SCORM Package Features
+#### Save a Quiz
+- Click "💾 Save to Library" in the editor
+- Enter a memorable name
+- Quiz is saved with all metadata
 
-### For Learners
-- Clean, modern interface
-- Navigate between questions
-- Review answers before submission
-- See detailed results with correct answers
-- Progress is tracked in the LMS
+#### Load a Quiz
+- Switch to "Quiz Library" tab
+- Browse saved quizzes
+- Click "Load" to continue editing
+- Click "Delete" to remove from library
 
-### For LMS Administrators
-- SCORM 1.2 compliant
-- Reports completion status
-- Tracks scores (0-100%)
-- Pass/fail threshold at 70%
-- Supports suspend/resume
+#### Export/Import JSON
+- **Export**: Download quiz as JSON file for backup or sharing
+- **Import**: Load quiz from JSON file (drag & drop or file picker)
 
-## Available OpenRouter Models
+## Web UI Features in Detail
 
-Some popular models you can use:
+### Generate Tab
+- **Generation Form**: Simple 3-field form to create new quizzes
+- **Question Editor**: Rich editor with inline editing capabilities
+- **Action Buttons**: Save, export, import, and generate SCORM
+- **Success Screen**: Download and preview options
 
-- `anthropic/claude-3.5-sonnet` (default) - Best quality
-- `anthropic/claude-3-haiku` - Faster, more economical
-- `openai/gpt-4-turbo` - OpenAI's latest
-- `openai/gpt-3.5-turbo` - Fast and economical
-- `meta-llama/llama-3-70b-instruct` - Open source option
+### Library Tab
+- **Quiz Cards**: Visual cards showing quiz metadata
+- **Quick Actions**: Load or delete with one click
+- **Metadata Display**: Subject, question count, and last updated date
 
-See [OpenRouter's model list](https://openrouter.ai/models) for all available models.
+### Modals
+- **Preview Modal**: Full-screen SCORM preview
+- **Save Modal**: Name your quiz before saving
 
 ## Project Structure
 
 ```
 .
 ├── cmd/
-│   └── scorm-generator/    # Main application entry point
-│       └── main.go
+│   ├── scorm-generator/    # Original CLI application (legacy)
+│   └── web-server/         # Web server application (main)
 ├── internal/
 │   ├── openrouter/         # OpenRouter API client
-│   │   └── client.go
 │   ├── quiz/               # Quiz generation logic
-│   │   └── generator.go
 │   ├── scorm/              # SCORM package generator
-│   │   ├── generator.go    # Main SCORM generator
-│   │   ├── manifest.go     # imsmanifest.xml generator
-│   │   ├── templates.go    # HTML template generator
-│   │   ├── scormapi.go     # SCORM API JavaScript
-│   │   └── styles.go       # CSS styles
-│   └── tui/                # Terminal UI for question review
-│       └── review.go       # Interactive review interface
-└── pkg/
-    └── models/             # Data models
-        └── quiz.go         # Quiz and Question models
+│   ├── server/             # Web server and HTTP handlers
+│   │   ├── server.go       # Server setup and routing
+│   │   ├── handlers.go     # API endpoint handlers
+│   │   └── web/            # Static web files
+│   │       ├── index.html  # Main web UI
+│   │       ├── styles.css  # UI styling
+│   │       └── app.js      # Frontend logic
+│   ├── storage/            # Quiz library storage
+│   └── tui/                # Terminal UI (for CLI version)
+├── pkg/
+│   └── models/             # Data models (Quiz, Question)
+├── data/                   # Saved quizzes (created on first run)
+└── output/                 # Generated SCORM packages
 ```
+
+## API Endpoints
+
+The web server exposes the following REST API endpoints:
+
+### Quiz Generation
+- `POST /api/generate` - Generate quiz questions
+- `POST /api/regenerate-question` - Regenerate a single question
+- `POST /api/update-question` - Update a question with edits
+- `POST /api/generate-scorm` - Create SCORM package
+
+### Library Management
+- `GET /api/library` - List all saved quizzes
+- `POST /api/library/save` - Save quiz to library
+- `GET /api/library/load?name=xyz` - Load quiz from library
+- `DELETE /api/library/delete?name=xyz` - Delete quiz from library
+
+### Import/Export
+- `GET /api/export?sessionId=xyz` - Export quiz as JSON
+- `POST /api/import?sessionId=xyz` - Import quiz from JSON
+
+### Package Serving
+- `GET /packages/<filename>.zip` - Download SCORM package
+
+## SCORM Package Features
+
+### For Learners
+- Clean, modern interface with gradient design
+- Navigate between questions freely
+- Review answers before submission
+- Detailed results with correct/incorrect feedback
+- Progress tracked in the LMS
+
+### For LMS Administrators
+- SCORM 1.2 compliant (works with Moodle, Canvas, Blackboard, etc.)
+- Reports completion status
+- Tracks scores (0-100%)
+- Configurable pass/fail threshold
+- Supports suspend/resume functionality
+
+## Available OpenRouter Models
+
+Popular models you can use with the `-model` flag:
+
+- `anthropic/claude-3.5-sonnet` (default) - Best quality, most accurate
+- `anthropic/claude-3-haiku` - Faster, more economical
+- `openai/gpt-4-turbo` - OpenAI's latest high-quality model
+- `openai/gpt-3.5-turbo` - Fast and economical
+- `meta-llama/llama-3-70b-instruct` - Open source option
+
+See [OpenRouter's model list](https://openrouter.ai/models) for all available models.
 
 ## Development
 
-### Building
+### Building from Source
 
 ```bash
-go build -o scorm-generator ./cmd/scorm-generator
+# Build web server
+go build -o bin/web-server ./cmd/web-server
+
+# Build CLI (legacy)
+go build -o bin/scorm-generator ./cmd/scorm-generator
 ```
 
 ### Running Tests
@@ -177,49 +257,147 @@ go get <package>
 go mod tidy
 ```
 
-## How It Works
+### Development Mode
 
-1. **User Input**: You provide a subject and number of questions
-2. **LLM Query**: The app sends a prompt to OpenRouter requesting quiz questions
-3. **JSON Parsing**: The LLM response is parsed into structured question data
-4. **Interactive Review**: Questions are displayed in a beautiful TUI where you can:
-   - Navigate between questions using arrow keys or h/l
-   - See all options with correct answers clearly marked
-   - Approve with Enter/y or reject with n/q
-5. **SCORM Generation** (if approved):
-   - Creates `imsmanifest.xml` with SCORM metadata
-   - Generates interactive HTML quiz interface
-   - Includes SCORM API wrapper for LMS communication
-   - Adds responsive CSS styling
-6. **Package Creation**: All files are zipped into a SCORM package
+For development with auto-reload, use `air` or similar:
+
+```bash
+go install github.com/cosmtrek/air@latest
+air
+```
+
+## Deployment
+
+### Internal Hosting
+
+Since no authentication is required, this is designed for internal hosting:
+
+```bash
+# Run on custom port
+./bin/web-server -port 3000
+
+# Run with production settings
+OPENROUTER_API_KEY="your-key" ./bin/web-server -port 80
+```
+
+### Docker Deployment (Optional)
+
+```dockerfile
+FROM golang:1.21-alpine AS builder
+WORKDIR /app
+COPY . .
+RUN go build -o web-server ./cmd/web-server
+
+FROM alpine:latest
+WORKDIR /app
+COPY --from=builder /app/web-server .
+RUN mkdir -p data output
+EXPOSE 8080
+CMD ["./web-server"]
+```
+
+### Systemd Service
+
+Create `/etc/systemd/system/scorm-generator.service`:
+
+```ini
+[Unit]
+Description=SCORM Generator Web Service
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+WorkingDirectory=/opt/scorm-generator
+Environment="OPENROUTER_API_KEY=your-key-here"
+ExecStart=/opt/scorm-generator/bin/web-server -port 8080
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Then:
+```bash
+sudo systemctl enable scorm-generator
+sudo systemctl start scorm-generator
+```
 
 ## Troubleshooting
 
-### "Error: OpenRouter API key is required"
-Set your API key via environment variable:
+### Server Won't Start
+
+**Error: "OpenRouter API key is required"**
 ```bash
 export OPENROUTER_API_KEY="your-key-here"
+./bin/web-server
 ```
 
-Or pass it directly:
+**Error: "Port already in use"**
 ```bash
-./scorm-generator -api-key "your-key-here" -subject "Math"
+./bin/web-server -port 8081
 ```
 
-### "Failed to parse quiz response"
-The LLM might have returned unexpected output. Try:
-- Using a different model with `-model`
-- Reducing the number of questions
-- Simplifying the subject name
+### Quiz Generation Issues
 
-### SCORM Package Not Working in LMS
+**"Failed to generate quiz"**
+- Check your API key is valid
+- Ensure you have OpenRouter credits
+- Try a different model
+- Reduce the number of questions
+
+**Questions are low quality**
+- Try `anthropic/claude-3.5-sonnet` for best results
+- Make your subject more specific
+- Generate fewer questions at once
+
+### SCORM Package Issues
+
+**Package won't upload to LMS**
 - Ensure your LMS supports SCORM 1.2
-- Check that the ZIP file structure is intact
+- Check the ZIP file isn't corrupted
 - Review LMS logs for specific errors
+
+**Quiz doesn't track progress**
+- Verify LMS SCORM support is enabled
+- Check SCORM API is accessible
+- Test with a different LMS
+
+## Security Notes
+
+⚠️ **This application has NO authentication** - it's designed for internal hosting only.
+
+For production deployment:
+- Run behind a VPN or firewall
+- Use reverse proxy with authentication (nginx + basic auth, OAuth, etc.)
+- Limit network access to trusted users
+- Monitor API usage and costs
+
+## CLI Version (Legacy)
+
+The original CLI version is still available:
+
+```bash
+go build -o bin/scorm-generator ./cmd/scorm-generator
+export OPENROUTER_API_KEY="your-key"
+./bin/scorm-generator -subject "Math" -questions 5
+```
+
+See git history for CLI documentation.
 
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
+
+### Ideas for Contributions
+- Add authentication system
+- Implement user accounts and permissions
+- Add more question types (true/false, short answer)
+- Improve SCORM preview (in-browser unzip and display)
+- Add quiz templates and categories
+- Implement analytics dashboard
+- Support for images in questions
+- Multi-language support
 
 ## License
 
@@ -228,21 +406,32 @@ MIT License - feel free to use this project for any purpose.
 ## Acknowledgments
 
 - Built with [OpenRouter](https://openrouter.ai/) for LLM access
-- [Bubble Tea](https://github.com/charmbracelet/bubbletea) for the beautiful TUI
+- [Bubble Tea](https://github.com/charmbracelet/bubbletea) for the CLI TUI
 - [Lip Gloss](https://github.com/charmbracelet/lipgloss) for TUI styling
 - SCORM 1.2 specification by ADL (Advanced Distributed Learning)
 - Go standard library for robust functionality
 
-## Future Enhancements
+## Roadmap
 
+- [x] Web interface
+- [x] Quiz library/history
+- [x] Import/export JSON
+- [x] Inline editing
+- [x] Question regeneration
+- [x] SCORM preview
+- [ ] User authentication
 - [ ] SCORM 2004 support
-- [ ] Support for different question types (true/false, fill-in-the-blank)
-- [ ] Customizable quiz themes
-- [ ] Include explanations for correct answers
-- [ ] Support for images in questions
-- [ ] Batch generation from CSV
-- [ ] Web interface
+- [ ] Additional question types
+- [ ] Image support in questions
+- [ ] Quiz templates
+- [ ] Analytics dashboard
+- [ ] Batch import from CSV
+- [ ] LMS integration testing
 
 ## Contact
 
 For questions or feedback, please open an issue on GitHub.
+
+---
+
+**Built with ❤️ for educators and instructional designers**

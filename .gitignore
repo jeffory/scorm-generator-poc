@@ -1,5 +1,6 @@
 # Binaries
 /scorm-generator
+/bin/
 *.exe
 *.exe~
 *.dll
@@ -18,6 +19,9 @@ go.work
 # Generated SCORM packages
 output/
 *.zip
+
+# Data directory
+data/
 
 # Environment files
 .env
