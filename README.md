@@ -12,6 +12,7 @@ A modern web application that generates SCORM 1.2 compliant quiz packages using 
 - 📦 **SCORM 1.2 Compliant**: Creates standard packages compatible with most LMS platforms
 - 👁️ **SCORM Preview**: Preview your quiz before deployment
 - 🎯 **Customizable Settings**: Configure passing scores and quiz parameters
+- 🎣 **Hero Content**: Add contextual content like emails, code snippets, or images to questions (perfect for phishing training!)
 
 ### Library & Management
 - 📚 **Quiz Library**: Save and manage multiple quiz configurations
@@ -110,6 +111,22 @@ Navigate to `http://localhost:8080` and start creating SCORM quizzes!
 - Click the 🔄 regenerate icon
 - AI will create a new question to replace it
 - Review and edit if needed
+
+#### Add Hero Content (NEW!)
+- Click ✏️ to edit any question
+- Select hero content type from dropdown:
+  - **Email** - For phishing awareness training
+  - **Text/Code** - For code review or document analysis
+  - **HTML** - For custom formatted content
+  - **Image** - For visual context (enter image URL)
+- Enter your content in the text area
+- Great for scenarios like:
+  - 🎣 Phishing email examples
+  - 💻 Code security questions
+  - 📄 Document comprehension
+  - 🖼️ Visual analysis
+
+👉 See **[HERO_CONTENT.md](HERO_CONTENT.md)** for detailed examples and best practices
 
 ### Creating SCORM Package
 
@@ -419,11 +436,12 @@ MIT License - feel free to use this project for any purpose.
 - [x] Inline editing
 - [x] Question regeneration
 - [x] SCORM preview
+- [x] Hero content support (emails, code, images)
 - [ ] User authentication
 - [ ] SCORM 2004 support
-- [ ] Additional question types
-- [ ] Image support in questions
-- [ ] Quiz templates
+- [ ] Additional question types (true/false, short answer)
+- [ ] File upload for images
+- [ ] Quiz templates library
 - [ ] Analytics dashboard
 - [ ] Batch import from CSV
 - [ ] LMS integration testing

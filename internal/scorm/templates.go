@@ -64,6 +64,25 @@ func (g *Generator) generateIndexHTML(dir string, quiz *models.Quiz) error {
 
             let html = '<div class="question">';
             html += '<h3>Question ' + (index + 1) + '</h3>';
+
+            // Show hero content if present
+            if (question.heroContent) {
+                html += '<div class="hero-content ' + (question.heroType || 'text') + '">';
+                if (question.heroType === 'image') {
+                    html += '<img src="' + escapeHtml(question.heroContent) + '" alt="Question context">';
+                } else if (question.heroType === 'email') {
+                    html += '<div class="email-preview">';
+                    html += '<pre>' + escapeHtml(question.heroContent) + '</pre>';
+                    html += '</div>';
+                } else if (question.heroType === 'html') {
+                    html += question.heroContent; // Trust HTML content
+                } else {
+                    // Default to text with pre-wrap
+                    html += '<pre>' + escapeHtml(question.heroContent) + '</pre>';
+                }
+                html += '</div>';
+            }
+
             html += '<p class="question-text">' + escapeHtml(question.question) + '</p>';
             html += '<div class="options">';
 

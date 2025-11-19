@@ -45,15 +45,25 @@ For each question, provide:
 1. The question text
 2. Four answer options (A, B, C, D)
 3. The correct answer (indicate which option is correct)
+4. OPTIONAL: Hero content (for context like emails, code snippets, documents)
 
 Return ONLY a valid JSON array with the following structure:
 [
   {
     "question": "Question text here?",
     "options": ["Option A", "Option B", "Option C", "Option D"],
-    "answer": 0
+    "answer": 0,
+    "heroContent": "Optional contextual content",
+    "heroType": "email|text|html|image"
   }
 ]
+
+HERO CONTENT GUIDELINES:
+- For phishing/security awareness: Include realistic email examples with "heroType": "email"
+- For coding/programming: Include code snippets with "heroType": "text"
+- For document analysis: Include relevant text with "heroType": "text"
+- Only include heroContent when it adds value to the question
+- Leave heroContent empty for questions that don't need context
 
 The "answer" field should be the index (0-3) of the correct option.
 Make the questions educational and relevant to the subject.

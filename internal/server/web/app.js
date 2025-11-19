@@ -136,6 +136,15 @@ function renderQuestions() {
                 </div>
             </div>
             <div class="question-display">
+                ${q.heroContent ? `
+                    <div class="hero-content-preview ${q.heroType || 'text'}">
+                        <div class="hero-label">📋 Hero Content (${q.heroType || 'text'})</div>
+                        ${q.heroType === 'image' ?
+                            `<img src="${escapeHtml(q.heroContent)}" alt="Hero image" style="max-width: 100%; height: auto;">` :
+                            `<pre>${escapeHtml(q.heroContent)}</pre>`
+                        }
+                    </div>
+                ` : ''}
                 <div class="question-text">${escapeHtml(q.question)}</div>
                 <ul class="options-list">
                     ${q.options.map((opt, i) => `
@@ -158,6 +167,19 @@ function editQuestion(index) {
 
     item.classList.add('editing');
     item.querySelector('.question-display').innerHTML = `
+        <div class="form-group">
+            <label>Hero Content (Optional)</label>
+            <div class="hero-content-editor">
+                <select id="edit-hero-type-${index}" class="hero-type-select">
+                    <option value="">None</option>
+                    <option value="text" ${q.heroType === 'text' ? 'selected' : ''}>Text/Code</option>
+                    <option value="email" ${q.heroType === 'email' ? 'selected' : ''}>Email</option>
+                    <option value="html" ${q.heroType === 'html' ? 'selected' : ''}>HTML</option>
+                    <option value="image" ${q.heroType === 'image' ? 'selected' : ''}>Image URL</option>
+                </select>
+                <textarea id="edit-hero-${index}" class="edit-hero-content" placeholder="Enter hero content (email example, code, image URL, etc.)">${escapeHtml(q.heroContent || '')}</textarea>
+            </div>
+        </div>
         <div class="form-group">
             <label>Question Text</label>
             <textarea id="edit-q-${index}" class="edit-question-text">${escapeHtml(q.question)}</textarea>
@@ -192,6 +214,21 @@ async function saveQuestion(index) {
         document.getElementById(`edit-opt-${index}-${i}`).value
     );
     const answer = parseInt(document.getElementById(`edit-answer-${index}`).value);
+    const heroType = document.getElementById(`edit-hero-type-${index}`).value;
+    const heroContent = document.getElementById(`edit-hero-${index}`).value;
+
+    const questionData = {
+        id: index + 1,
+        question,
+        options,
+        answer
+    };
+
+    // Only include hero content if type is selected
+    if (heroType) {
+        questionData.heroContent = heroContent;
+        questionData.heroType = heroType;
+    }
 
     try {
         const response = await fetch('/api/update-question', {
@@ -200,18 +237,13 @@ async function saveQuestion(index) {
             body: JSON.stringify({
                 sessionId: state.sessionId,
                 questionIndex: index,
-                question: {
-                    id: index + 1,
-                    question,
-                    options,
-                    answer
-                }
+                question: questionData
             })
         });
 
         if (!response.ok) throw new Error('Failed to update question');
 
-        state.currentQuiz.questions[index] = { id: index + 1, question, options, answer };
+        state.currentQuiz.questions[index] = questionData;
         renderQuestions();
     } catch (error) {
         alert('Error saving question: ' + error.message);

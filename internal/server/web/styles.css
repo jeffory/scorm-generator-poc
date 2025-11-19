@@ -281,6 +281,65 @@ textarea {
     margin-left: 0.5rem;
 }
 
+/* Hero Content Styles */
+.hero-content-preview {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border: 2px solid #e2e8f0;
+}
+
+.hero-content-preview.email {
+    background: #ffffff;
+    border-color: #cbd5e0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.hero-content-preview pre {
+    margin: 0.5rem 0 0 0;
+    padding: 0.75rem;
+    background: #ffffff;
+    border-radius: 4px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    overflow-x: auto;
+}
+
+.hero-content-preview.email pre {
+    border-left: 3px solid var(--primary-color);
+}
+
+.hero-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-light);
+    margin-bottom: 0.5rem;
+}
+
+.hero-content-editor {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.hero-type-select {
+    padding: 0.5rem;
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 0.9rem;
+    background: white;
+}
+
+.edit-hero-content {
+    min-height: 120px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9rem;
+}
+
 /* Editor Actions */
 .editor-header {
     display: flex;

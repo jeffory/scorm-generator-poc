@@ -54,11 +54,53 @@ h4 {
     margin-bottom: 30px;
 }
 
+.hero-content {
+    margin-bottom: 25px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 2px solid #e0e0e0;
+}
+
+.hero-content.email {
+    background: #ffffff;
+    border: 1px solid #d0d0d0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.hero-content pre {
+    margin: 0;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9em;
+    line-height: 1.5;
+    color: #333;
+}
+
+.hero-content.email pre {
+    padding: 15px;
+    background: #fafafa;
+    border-left: 3px solid #667eea;
+}
+
+.hero-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    display: block;
+}
+
+.email-preview {
+    font-size: 0.95em;
+}
+
 .question-text {
     font-size: 1.2em;
     color: #333;
     margin-bottom: 20px;
     line-height: 1.6;
+    font-weight: 500;
 }
 
 .options {
